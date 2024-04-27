@@ -1,12 +1,15 @@
 package com.outofmemory.game.Heroes;
 
+import static com.outofmemory.game.Tools.TileMapHelper.worldHeight;
+import static com.outofmemory.game.Tools.TileMapHelper.worldWigth;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.outofmemory.game.Heroes.Heroes;
+import com.outofmemory.game.Tools.TileMapHelper;
 
 public class Player extends Heroes {
 
@@ -17,13 +20,29 @@ public class Player extends Heroes {
     @Override
     public void update() {
 
-        float new_x_dir =  direction.getX()*body.getAngularVelocity();
-        float new_y_dir =  direction.getY()*body.getAngularVelocity();
+        float oldX = body.getPosition().x;
+        float oldY = body.getPosition().y;
 
-        float old_x = body.getPosition().x;
-        float old_y = body.getPosition().y;
+        float newXDir =  direction.getX()*body.getAngularVelocity();
+        float newYDir =  direction.getY()*body.getAngularVelocity();
 
-        body.setTransform(new Vector2(old_x+new_x_dir, old_y+new_y_dir), direction.getX()*10f + direction.getY()*10f);
+        float newX = oldX+newXDir;
+        float newY = oldY+newYDir;
+
+        if (newX <= 0){
+            newX = 0;
+        }
+        if (newY <= 0) {
+            newY = 0;
+        }
+        if (newX >= worldWigth) {
+            newX = oldX;
+        }
+        if (newY >= worldHeight) {
+            newY = oldY;
+        }
+
+        body.setTransform(new Vector2(newX, newY), direction.getX()*10f + direction.getY()*10f);
 
     }
 

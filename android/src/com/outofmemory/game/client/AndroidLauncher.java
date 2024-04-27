@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.outofmemory.game.client.dto.InputStateImpl;
 import com.outofmemory.game.client.ws.EventListenerCallback;
 import com.outofmemory.game.client.ws.WebSocketClient;
 import com.outofmemory.game.client.ws.WebSocketListener;

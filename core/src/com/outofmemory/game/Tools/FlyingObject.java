@@ -13,14 +13,14 @@ public class FlyingObject extends Actor {
     public FlyingObject(TextureRegion textureRegion) {
         this.textureRegion = textureRegion;
         this.setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
-        this.speed = MathUtils.random(100.0f, 200.0f); // Рандомная скорость в пределах [100, 200]
+        this.speed = MathUtils.random(100.0f, 200.0f);
         resetPosition();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        this.moveBy(0, -speed * delta); // Двигаемся вниз
+        this.moveBy(0, -speed * delta);
         if (this.getY() + this.getHeight() < 0) {
             resetPosition();
         }
@@ -28,7 +28,8 @@ public class FlyingObject extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(),
+                getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
     private void resetPosition() {
