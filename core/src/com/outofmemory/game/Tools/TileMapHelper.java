@@ -24,20 +24,27 @@ public class TileMapHelper {
         this.playScreen = playScreen;
     }
     public OrthogonalTiledMapRenderer setupMap(){
-        tiledMap=new TmxMapLoader().load(("Map.tmx"));
-        parseMapObjects(tiledMap.getLayers().get("lightObject").getObjects());
+        tiledMap=new TmxMapLoader().load("map1.tmx");
+        Gdx.app.log("INFO MAP LOAD", "OrthogonalTiledMapRenderer");
+        Gdx.app.log("INFO MAP LOAD", "OrthogonalTiledMapRenderer   " +
+                tiledMap.getLayers().get("person").getObjects().getCount());
+        parseMapObjects(tiledMap.getLayers().get("person").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
     private void parseMapObjects(MapObjects mapObjects){
+        Gdx.app.log("INFO MAP LOAD", "HI MAP LOAD");
         for (MapObject mapObject: mapObjects){
-
+            Gdx.app.log("INFO MAP LOAD", "Cilce ahahahahhah");
+            TextureMapObject textureMapObject2 = ((TextureMapObject) mapObject);
+            String textureMapObjectName2 = textureMapObject2.getName();
+            Gdx.app.log("INFO TEXTURE",textureMapObjectName2);
 
             if(mapObject instanceof TextureMapObject){
                 Gdx.app.log("INFO","Я нашел текстуру");
                 TextureMapObject textureMapObject = ((TextureMapObject) mapObject);
                 String textureMapObjectName = textureMapObject.getName();
-                Gdx.app.log("INFO",textureMapObjectName);
-                if(textureMapObjectName.equals("kek")) {
+                Gdx.app.log("INFO", textureMapObjectName);
+                if(textureMapObjectName != null && textureMapObjectName.equals("person")) {
                     Gdx.app.log("INFO","Я зашел в test текстуру");
                     Body body = BodyHelperService.createBody(textureMapObject,
                             playScreen.getWorld(),false);

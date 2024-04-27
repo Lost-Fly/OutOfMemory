@@ -204,7 +204,7 @@ public class PlayScreen extends ScreenAdapter {
     }
     public void loadHeroes(){
 //        joy = new Joystick(Main.circle, Main.capibara, new Point2D((float)50, (float)50), 10);
-        joy = new Joystick(Main.circle, Main.capibara, new Point2D(((screenHeight/3)/2+(screenHeight/3)/4), (screenHeight/3)/2+(screenHeight/3)/4), screenHeight/3);
+        joy = new Joystick(Main.circle, Main.circle, new Point2D(((screenHeight/3)/2+(screenHeight/3)/4), (screenHeight/3)/2+(screenHeight/3)/4), screenHeight/3);
     }
     public void gameUpdate() {
 //        orthogonalTiledMapRenderer.setView(camera);
