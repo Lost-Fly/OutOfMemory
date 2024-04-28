@@ -2,7 +2,7 @@ package com.outofmemory.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.outofmemory.game.Screens.HomeScreen;
+//import com.outofmemory.game.Screens.HomeScreen;
 import com.outofmemory.game.Screens.PlayScreen;
 import com.outofmemory.game.render.Renderer;
 
@@ -23,7 +23,7 @@ public class Main extends Game {
         screenHeight = Gdx.graphics.getHeight();
 
         renderer = new Renderer();
-        renderer.setScreen(new HomeScreen());
+        renderer.setScreen(new PlayScreen());
     }
 
     @Override

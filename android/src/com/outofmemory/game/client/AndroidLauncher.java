@@ -48,7 +48,7 @@ public class AndroidLauncher extends AndroidApplication {
             messageProcessor.processEvent(event);
         };
 
-        String wsUri = readWsUriFromProperties();
+        String wsUri = "readWsUriFromProperties()";
         WebSocketClient webSocketClient = new WebSocketClient(getUri(wsUri), getWebsocketListener(callback));
 
 
@@ -124,17 +124,17 @@ public class AndroidLauncher extends AndroidApplication {
     }
 
 
-    private String readWsUriFromProperties() {
-        Properties properties = new Properties();
-        try {
-            InputStream inputStream = getAssets().open("env.properties");
-            properties.load(inputStream);
-            return properties.getProperty("WS_URI");
-        } catch (IOException e) {
-            Gdx.app.error("ERROR ENV", "Failed to read WS_URI from properties file: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
+//    private String readWsUriFromProperties() {
+//        Properties properties = new Properties();
+//        try {
+//            InputStream inputStream = getAssets().open("env.properties");
+//            properties.load(inputStream);
+//            return properties.getProperty("WS_URI");
+//        } catch (IOException e) {
+//            Gdx.app.error("ERROR ENV", "Failed to read WS_URI from properties file: " );
+////            throw new RuntimeException(e);
+//        }
+//    }
 
 
     public AndroidApplicationConfiguration getConfig() {
