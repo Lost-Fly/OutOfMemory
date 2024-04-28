@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="395">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="399">
  <tileset firstgid="1" source="magecity.tsx"/>
  <tileset firstgid="361" source="person.tsx"/>
  <tileset firstgid="362" source="tree.tsx"/>
@@ -10,6 +10,8 @@
  <tileset firstgid="367" source="Tiles.tsx"/>
  <tileset firstgid="511" source="grass.tsx"/>
  <tileset firstgid="513" source="Tileset-Terrain2.tsx"/>
+ <tileset firstgid="1017" source="Line 2.tsx"/>
+ <tileset firstgid="1018" source="line 3.tsx"/>
  <layer id="1" name="ground" width="100" height="80">
   <data encoding="csv">
 404,403,404,403,404,403,404,403,404,403,404,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,165,185,186,187,190,191,192,185,186,187,165,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,58,58,
@@ -295,6 +297,7 @@
  </layer>
  <objectgroup id="5" name="person">
   <object id="52" name="person" gid="361" x="40.67" y="2531.67" width="16" height="16"/>
+  <object id="398" name="line" gid="1018" x="150" y="769.333" width="52" height="24"/>
  </objectgroup>
  <objectgroup id="3" name="nature">
   <object id="82" gid="362" x="1725.88" y="568.939" width="125" height="149"/>

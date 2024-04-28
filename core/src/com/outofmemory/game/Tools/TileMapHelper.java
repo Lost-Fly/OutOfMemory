@@ -31,6 +31,7 @@ public class TileMapHelper {
     public static int worldHeight;
     public static int worldWigth;
     private Player player;
+    private Player line;
     private final World world;
 
     public TileMapHelper() {
@@ -86,6 +87,16 @@ public class TileMapHelper {
 
                 player = new Player(body, textureMapObject);
 
+            } else if (textureMapObjectName != null && textureMapObjectName.equals("line")) {
+
+                Body body = BodyHelperService.createBody(textureMapObject,
+                        world, false);
+
+                textureMapObject.setScaleX(0.5f);
+                textureMapObject.setScaleY(0.5f);
+
+                line = new Player(body, textureMapObject);
+
             }
 
         }
@@ -102,4 +113,7 @@ public class TileMapHelper {
         return shape;
     }
 
+    public Player getLine() {
+        return line;
+    }
 }

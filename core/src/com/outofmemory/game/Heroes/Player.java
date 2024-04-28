@@ -21,6 +21,9 @@ public class Player extends Heroes {
 
     private float increment;
 
+    public boolean inPoint = false;
+
+
     public Player(Body body, TextureMapObject textureMapObject) {
         super(body, textureMapObject);
     }
@@ -141,12 +144,16 @@ public class Player extends Heroes {
             Gdx.app.log("CHECK COLLISIN", "pX " + newX + " pY " + newY + "  oX " +
 
                     objXleft + ' ' + objXright + "   oY " + objYtop + ' ' + objYbottom + "   " + taskPoint.getName());
-            if(newX >= objXleft && newX <= objXright){
+            if(newX >= objXleft - 10 && newX <= objXright){
                 if(newY >= objYtop && newY <= objYbottom){
-                    newX = oldX;
-                    newY = oldY;
+                    inPoint = true;
+//                    newX = oldX;
+//                    newY = oldY;
                 }
             }
+
+
+
 
         }
 
@@ -155,6 +162,10 @@ public class Player extends Heroes {
 
         body.setTransform(new Vector2(newX, newY), direction.getX()*10f + direction.getY()*10f);
 
+    }
+
+    public void setAngle(float angle){
+        body.setTransform(getX(), getY(), angle);
     }
 
     private boolean isCellBlocked(float x, float y) {
@@ -192,6 +203,14 @@ public class Player extends Heroes {
         return false;
     }
 
+    public boolean isInPoint() {
+        return inPoint;
+    }
+
+    public void setInPoint(boolean inPoint) {
+        this.inPoint = inPoint;
+    }
+
     public float getX(){
         return body.getPosition().x;
     }
@@ -199,6 +218,12 @@ public class Player extends Heroes {
     public float getY(){
         return body.getPosition().y;
     }
+
+    public void setTransform(float x, float y, float angle){
+
+        body.setTransform(x, y, angle);
+    }
+
 
     public float getWidth(){
         return worldWigth;

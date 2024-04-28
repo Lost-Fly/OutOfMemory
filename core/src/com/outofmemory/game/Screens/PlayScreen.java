@@ -1,8 +1,10 @@
 package com.outofmemory.game.Screens;
 
 
+import static com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpawnShape.line;
 import static com.outofmemory.game.Main.screenHeight;
 import static com.outofmemory.game.Main.screenWidth;
+import static com.outofmemory.game.Tools.TileMapHelper.worldHeight;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -12,9 +14,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.outofmemory.game.Heroes.Player;
+import com.outofmemory.game.Tools.Checkpoint;
+import com.outofmemory.game.Tools.CheckpointsService;
 import com.outofmemory.game.Tools.Joystick;
 import com.outofmemory.game.Tools.Point2D;
 import com.outofmemory.game.Tools.TileMapHelper;
+
+import java.awt.Point;
+import java.util.List;
 
 public class PlayScreen implements Screen {
 
@@ -22,9 +29,13 @@ public class PlayScreen implements Screen {
     private final TileMapHelper tileMapHelper;
 
     private final Player player;
+    private Player line;
 
     private final OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private final OrthographicCamera hudCamera;
+
+
+    public List<Checkpoint> checkpoints = CheckpointsService.getRandomized(20);
 
 
     public PlayScreen() {
@@ -38,6 +49,7 @@ public class PlayScreen implements Screen {
         orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 
         this.player = tileMapHelper.getPlayer();
+        this.line = tileMapHelper.getLine();
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -109,11 +121,30 @@ public class PlayScreen implements Screen {
         orthogonalTiledMapRenderer.render(); // Рендерим карту
 
         player.draw(batch);
+        if (player.inPoint) {
+            // x 1665 y 1438
+
+            float targetX = 1984 - player.getX();
+            float targetY = (worldHeight - player.getY()) - 960;
+
+            // Вычисляем угол до цели
+            float angleRadians = (float)Math.atan2(targetY, targetX);
+            float angleDegrees = (float)Math.toDegrees(angleRadians);
+
+
+            //
+            line.setTransform(player.getX() - 7, player.getY()+ 20, angleDegrees);
+
+            line.draw(batch);
+        }
+
 
         // Начинаем рисовать элементы интерфейса с использованием камеры HUD
         batch.setProjectionMatrix(hudCamera.combined);
+
         joy.draw(batch); // Рисуем джойстик с использованием камеры HUD
     }
+
 
     @Override
     public void dispose() {
