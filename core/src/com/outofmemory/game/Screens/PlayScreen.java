@@ -1,7 +1,6 @@
 package com.outofmemory.game.Screens;
 
 
-import static com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpawnShape.line;
 import static com.outofmemory.game.Main.screenHeight;
 import static com.outofmemory.game.Main.screenWidth;
 import static com.outofmemory.game.Tools.TileMapHelper.worldHeight;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.outofmemory.game.Heroes.Player;
 import com.outofmemory.game.Tools.Checkpoint;
 import com.outofmemory.game.Tools.CheckpointsService;
@@ -20,7 +20,6 @@ import com.outofmemory.game.Tools.Joystick;
 import com.outofmemory.game.Tools.Point2D;
 import com.outofmemory.game.Tools.TileMapHelper;
 
-import java.awt.Point;
 import java.util.List;
 
 public class PlayScreen implements Screen {
@@ -28,14 +27,15 @@ public class PlayScreen implements Screen {
     Joystick joy;
     private final TileMapHelper tileMapHelper;
 
-    private final Player player;
+    public final Player player;
     private Player line;
 
     private final OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private final OrthographicCamera hudCamera;
 
 
-    public List<Checkpoint> checkpoints = CheckpointsService.getRandomized(20);
+    public static List<Checkpoint> checkpoints;
+    public static ObjectMap<String, Checkpoint> taskPointsToCheckpoints;
 
 
     public PlayScreen() {
@@ -105,6 +105,10 @@ public class PlayScreen implements Screen {
         loadHeroes();
     }
 
+    public Player getPlayer(){
+        return player;
+    }
+
     public void multitouch(float x, float y, boolean isDownTouch, int pointer) {
         for (int i = 0; i < 3; i++) {
             joy.update(x, y, isDownTouch, pointer);
@@ -123,6 +127,7 @@ public class PlayScreen implements Screen {
         player.draw(batch);
         if (player.inPoint) {
             // x 1665 y 1438
+            line.setTransform(player.getX() - 7, player.getY()+ 20, 76);
 
             float targetX = 1984 - player.getX();
             float targetY = (worldHeight - player.getY()) - 960;
@@ -146,12 +151,29 @@ public class PlayScreen implements Screen {
     }
 
 
+    public static ObjectMap<String, Checkpoint> createTaskPointsToCheckpoints(List<Checkpoint> checkpoints) {
+        ObjectMap<String, Checkpoint> taskPointsToCheckpoints = new ObjectMap<>();
+
+        for (int i = 0; i < checkpoints.size(); i++) {
+            String taskKey = "task" + (i + 1);
+            Checkpoint checkpoint = checkpoints.get(i);
+            taskPointsToCheckpoints.put(taskKey, checkpoint);
+        }
+
+        return taskPointsToCheckpoints;
+    }
+
+
     @Override
     public void dispose() {
 
     }
 
     public void loadHeroes() {
+        checkpoints = CheckpointsService.getRandomized(20);
+
+        taskPointsToCheckpoints = createTaskPointsToCheckpoints(checkpoints);
+
         joy = new Joystick(new Texture("circle.png"),
                 new Texture("circle.png"),
                 new Point2D(((screenHeight / 3) / 2 + (screenHeight / 3) / 4),

@@ -9,6 +9,10 @@ public class Checkpoint {
 
     private String letter;
 
+    public Checkpoint(String letter) {
+        this.letter = letter;
+    }
+
     // Getters
     public String getId() {
         return id;

@@ -1,31 +1,62 @@
 package com.outofmemory.game.Heroes;
 
+import static com.outofmemory.game.Main.screenHeight;
+import static com.outofmemory.game.Screens.PlayScreen.taskPointsToCheckpoints;
 import static com.outofmemory.game.Tools.TileMapHelper.collisionLayer;
 import static com.outofmemory.game.Tools.TileMapHelper.worldHeight;
 import static com.outofmemory.game.Tools.TileMapHelper.worldWigth;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.outofmemory.game.Tools.Checkpoint;
 import com.outofmemory.game.Tools.TileMapHelper;
+import com.outofmemory.game.render.Renderer;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Player extends Heroes {
+
+    Label gameNameLabel;
+
+
 
     private float increment;
 
     public boolean inPoint = false;
 
+    Skin skin;
+
+    private MapObject textT;
+
+    private BitmapFont font;
+    public String currentCheckpointLetter = "";
+
 
     public Player(Body body, TextureMapObject textureMapObject) {
+
         super(body, textureMapObject);
+
+//        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+
+    }
+
+    public void setText(String text){
+        gameNameLabel = new Label(text, skin);
     }
 
     @Override
@@ -134,6 +165,10 @@ public class Player extends Heroes {
 
         for(MapObject taskPoint: hashMap.values()){
 
+//            if (Objects.equals(taskPoint.getName(), "text")){
+//                textT = taskPoint;
+//            }
+
             float objXleft = (float) taskPoint.getProperties().get("x");
             float objXright = (float) taskPoint.getProperties().get("x") + 95;
 
@@ -141,12 +176,26 @@ public class Player extends Heroes {
             float objYtop = (float) taskPoint.getProperties().get("y");
 
 
-            Gdx.app.log("CHECK COLLISIN", "pX " + newX + " pY " + newY + "  oX " +
-
-                    objXleft + ' ' + objXright + "   oY " + objYtop + ' ' + objYbottom + "   " + taskPoint.getName());
+//            Gdx.app.log("CHECK COLLISIN", "pX " + newX + " pY " + newY + "  oX " +
+//
+//                    objXleft + ' ' + objXright + "   oY " + objYtop + ' ' + objYbottom + "   " + taskPoint.getName());
             if(newX >= objXleft - 10 && newX <= objXright){
                 if(newY >= objYtop && newY <= objYbottom){
                     inPoint = true;
+                    Checkpoint checkpoint = taskPointsToCheckpoints.get(taskPoint.getName(), new Checkpoint("T"));
+                    Gdx.app.log("CHECK COLLISIN", "true " + checkpoint.getLetter());
+                    if (inPoint) {
+//                        Ccheckpoint = taskPointsToCheckpoints.get(taskPoint.getName());
+                        String letter = checkpoint.getLetter();
+                        // Записываем букву, чтобы отобразить её на экран
+                        currentCheckpointLetter = letter;
+
+                        inPoint = false; // Чтобы текст обновился только один раз при входе в точку
+
+                        // Возможно нужно выполнить ещё какие-либо действия...
+                    }
+
+//                    checkpoint.getLetter();
 //                    newX = oldX;
 //                    newY = oldY;
                 }
@@ -235,11 +284,18 @@ public class Player extends Heroes {
 
     @Override
     public void draw(SpriteBatch batch) {
+//        batch.begin();
         batch.draw(textureRegion,
                 body.getPosition().x, body.getPosition().y,
                 textureRegion.getRegionWidth() / 2.0f, textureRegion.getRegionHeight() / 2.0f,
                 textureRegion.getRegionWidth(), textureRegion.getRegionHeight(),
                 textureMapObject.getScaleX(),textureMapObject.getScaleY(), body.getAngle());
+
+//        batch.end();
+//        batch.begin();
+
+
+//        batch.end();
     }
 }
 
